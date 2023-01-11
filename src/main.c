@@ -29,7 +29,17 @@ int	main(int argc, char **argv, char **enviroment)
 			master->status = add_hist_exit_check(master);
 			if (master->status)
 				break ;
-			minishell(master->line, master);
+			if (master->line == 0)
+			{
+				free_master(master);
+				write(1, "\n", 1);
+				exit (1);
+			}
+			if (*master->line != '\0')
+			{
+				add_history(master->line); //asi parece que se soluciona
+				minishell(master->line, master);
+			}
 		}
 		close_init_redirs(master);
 		free_master(master);
@@ -44,7 +54,7 @@ int	main(int argc, char **argv, char **enviroment)
 */
 _Bool	add_hist_exit_check(t_master *master)
 {
-	add_history(master->line);	//@arebelo error of this function?
+	//add_history(master->line);	//@arebelo error of this function?
 	if (master->line && ft_strcmp(master->line, "exit") == 0)
 		return (1);
 	if (isatty(STDIN_FILENO) == 0 && !master->line)

@@ -20,6 +20,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <../libft/libft.h>
+# include <sys/types.h> //para portatil en codespaces
+# include <sys/wait.h> //para portatil en codespaces
 
 # define ARG 0
 # define OUTPUT 1
@@ -87,6 +89,9 @@ typedef struct s_master
 //MAIN
 _Bool	add_hist_exit_check(t_master *master);
 void	minishell(char *line, t_master *master);
+
+//SIGNALS
+void    init_signal(int i);
 
 //ENVIROMENT
 int		init_env(t_master *master, char **enviroment);
@@ -196,7 +201,10 @@ void    update_env(char *oldpwd, t_env *env);
 void    update_pwd(t_env *env);
 void    update_oldpwd(char *oldpwd, t_env *env);
 void    change_dir(char *arg, char *oldpwd, t_env *env);
-
+void    ft_env(t_env *env);
+void    ft_unset(t_env *env, char **args);
+int     ft_export(t_env *env, char **args);
+void    print_export_error(char *str);
 
 //FREE
 void    free_master(t_master *master);
